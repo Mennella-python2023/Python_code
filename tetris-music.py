@@ -9,31 +9,23 @@ pygame.mixer.init()
 
 # Costanti
 WIDTH, HEIGHT = 300, 600
-GRID_SIZE = 30
+GRID_SIZE = 25
 COLUMNS = WIDTH // GRID_SIZE
 ROWS = HEIGHT // GRID_SIZE
-SPEED = 5
+SPEED = 3
 BLACK = (0, 0, 0)
 
-# Caricamento dei suoni
-move_sound = pygame.mixer.Sound("move.wav")
-rotate_sound = pygame.mixer.Sound("rotate.wav")
-clear_sound = pygame.mixer.Sound("clear.wav")
-gameover_sound = pygame.mixer.Sound("gameover.wav")
-pygame.mixer.music.load("background.mp3")
-
-# Avvia la musica di sottofondo (loop infinito)
-pygame.mixer.music.play(-1)
 
 # Forme e colori dei pezzi
 SHAPES = [
     ([[1, 1, 1, 1]], (0, 255, 255)),  # I - Cyan
-    ([[1, 1, 1], [0, 1, 0]], (128, 0, 128)),  # T - Purple
-    ([[1, 1], [1, 1]], (255, 255, 0)),  # O - Yellow
+    ([[1, 1], [1, 1]], (225, 225, 0)),  # O - Yellow
+    ([[1, 1, 1], [0, 1, 0]], (128, 0, 128)),  # T - Purple 
     ([[1, 1, 0], [0, 1, 1]], (0, 255, 0)),  # S - Green
     ([[0, 1, 1], [1, 1, 0]], (255, 0, 0)),  # Z - Red
     ([[1, 1, 1], [1, 0, 0]], (255, 165, 0)),  # L - Orange
     ([[1, 1, 1], [0, 0, 1]], (0, 0, 255))  # J - Blue
+    
 ]
 
 # Classe Tetris
@@ -51,7 +43,6 @@ class Tetris:
         return random.choice(SHAPES)
 
     def rotate_shape(self):
-        rotate_sound.play()
         self.shape = [list(row) for row in zip(*self.shape[::-1])]
 
     def collision(self, dx=0, dy=0):
@@ -72,15 +63,12 @@ class Tetris:
         self.shape, self.color = self.get_new_shape()
         self.x, self.y = COLUMNS // 2, 0
         if self.collision():
-            gameover_sound.play()
-            pygame.mixer.music.stop()
             self.running = False  # Game Over
 
     def animate_clear_lines(self):
         """Animazione di dissolvenza quando una riga viene eliminata"""
         full_rows = [y for y in range(ROWS) if all(self.grid[y][x] != (0, 0, 0) for x in range(COLUMNS))]
         if full_rows:
-            clear_sound.play()
             for step in range(3):  # Dissolvenza in 3 passaggi
                 for y in full_rows:
                     for x in range(COLUMNS):
@@ -88,7 +76,7 @@ class Tetris:
                         self.grid[y][x] = (r//2, g//2, b//2)  # Diminuisce la luminosità
                 self.draw_grid()
                 pygame.display.flip()
-                time.sleep(0.1)  # Piccola pausa tra gli step
+                time.sleep(0.3)  # Piccola pausa tra gli step
 
             # Rimuove le righe dopo l'animazione
             self.grid = [[(0, 0, 0)] * COLUMNS] * len(full_rows) + [row for row in self.grid if row not in [self.grid[y] for y in full_rows]]
@@ -117,13 +105,10 @@ class Tetris:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT and not self.collision(dx=-1):
                         self.x -= 1
-                        move_sound.play()
                     elif event.key == pygame.K_RIGHT and not self.collision(dx=1):
                         self.x += 1
-                        move_sound.play()
                     elif event.key == pygame.K_DOWN and not self.collision(dy=1):
                         self.y += 1
-                        move_sound.play()
                     elif event.key == pygame.K_UP:
                         self.rotate_shape()
                         if self.collision():
