@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 x = np.linspace(-4, 1, 400)
-y = x**2 + 2*x
-y = x**2 - 2*x
+y1 = x**2 + 2*x
+y2 = x**2 - 2*x
 
 plt.fill_between(x, y1, y2, where=(x <= 0), color='lightblue', alpha=0.6, label='Dominio')
 
