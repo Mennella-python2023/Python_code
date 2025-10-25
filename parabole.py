@@ -7,7 +7,7 @@ y2 = x**2 - 2*x
 
 plt.fill_between(x, y1, y2, where=(x <= 0), color='lightblue', alpha=0.6, label='Dominio')
 
-plt.plot(x, y1, 'r', label='y = x^2 + 2x')
+plt.plot(x, y1, 'r', label='y = -x^2 + 2x')
 plt.plot(x, y2, 'g', label='y = x^2 - 2x')
 plt.axhline(0, color='black',linewidth=0.5, ls='--')
 plt.axvline(0, color='black',linewidth=0.5, ls='--')
