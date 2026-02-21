@@ -16,6 +16,9 @@ g = {   'a': ['b', 'c'],
         'c': ['d', 'e'],
         'd': [],
         'e': []}
-u = 'a'
-result = A_Ex4(g, u)
-print(result)  # Output: 'abcde'
+u = 'd'
+print(A_Ex4(g, u))  # Output: 'd'
+u = 'b'
+print(A_Ex4(g, u))  # Output: 'bd'
+
+
