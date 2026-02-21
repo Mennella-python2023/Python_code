@@ -1,0 +1,10 @@
+Ciao, questi sono alcuni numeri di telefono di prova:
+
++39-123-45678
+00-39-987-65432
++1-555-12345
+0039-111-22222
++44-777-88888
++39-999-00000
+
+Fine del file.
